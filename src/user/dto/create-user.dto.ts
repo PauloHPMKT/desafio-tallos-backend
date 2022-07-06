@@ -1,3 +1,4 @@
+import { Expose } from "class-transformer";
 import { IsEmail, IsNotEmpty, IsString, Matches } from "class-validator";
 
 export class CreateUserDto {
@@ -7,10 +8,11 @@ export class CreateUserDto {
     @IsEmail({}, { message: 'Digite um e-mail valido' })
     email: string;
 
-    @IsString()
-    @Matches(/((?=.*\d)|(?=.*\d+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).$/, {
+    /*@Matches(/((?=.*\d)|(?=.*\d+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).$/, {
         message: 'a senha não é forte o bastante!',
-    })
+    })*/
+    @IsString()
+    @Expose()
     password: string;
     rule: string;
 }
