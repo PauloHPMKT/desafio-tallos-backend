@@ -15,8 +15,9 @@ export class UserService {
     return newUser.save()
   }
 
-  findAll() {
-    return `This action returns all user`;
+  //listando todos os usuarios
+  async findAll() {
+    return await this.userModel.find();
   }
 
   findOne(id: number) {
