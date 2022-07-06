@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose'
+import { Encript } from 'src/helpers/user.crypto';
 
 @Injectable()
 export class UserService {
@@ -12,6 +13,8 @@ export class UserService {
   //criando novo usuario
   async create(createNewUser: CreateUserDto) {
     const newUser = await new this.userModel(createNewUser);
+    newUser.password = await Encript.CriptoPass(newUser.password)
+    
     return newUser.save()
   }
 
