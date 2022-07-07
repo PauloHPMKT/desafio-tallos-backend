@@ -1,12 +1,10 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
 import { AuthRequest } from '../models/auth.request';
 import { JwtPayload } from '../models/jwt.decode';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService){}
   
   canActivate(context: ExecutionContext,): boolean | Promise<boolean> | Observable<boolean> {
     const request: AuthRequest = context.switchToHttp().getRequest()
@@ -16,9 +14,9 @@ export class RolesGuard implements CanActivate {
     const decodeBuffer = Buffer.from(decode, 'base64')
     const role = JSON.parse(decodeBuffer.toString()) as JwtPayload
 
-    console.log(role.user.rules)
+    const rolesUser = role.user.rules
 
-    if(role.user.rules === 'admin') {
+    if(rolesUser === 'admin') {
       return true; 
 
     } else {

@@ -35,7 +35,6 @@ export class AuthService {
 
     //gerar token
     const jwtToken = this.jwtService.sign(user)
-    console.log(jwtToken)
     
     return {
       access_token: jwtToken,
