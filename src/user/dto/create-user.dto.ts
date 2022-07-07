@@ -2,6 +2,8 @@ import { Expose } from "class-transformer";
 import { IsEmail, IsNotEmpty, IsString, Matches } from "class-validator";
 
 export class CreateUserDto {
+    id?: number;
+
     @IsNotEmpty({ message: 'Digite um nome de usuário valido' })
     name: string;
 
@@ -14,5 +16,7 @@ export class CreateUserDto {
     @IsString()
     @Expose()
     password: string;
-    rule: string;
+    rules: string;
+
+
 }

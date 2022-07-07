@@ -3,6 +3,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UserModule } from 'src/user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { RolesGuard } from './guards/roles-auth.guard';
 import { LoginValidationMiddleware } from './middleware/validation.middleware';
 import { JwtStrategy } from './strategies/jwt.strategies';
 import { LocalStrategy } from './strategies/local.strategy';
@@ -13,10 +14,11 @@ import { LocalStrategy } from './strategies/local.strategy';
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '3000ms' },
-    })
+    }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy]
+  providers: [AuthService, LocalStrategy, JwtStrategy, RolesGuard],
+  exports: []
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
