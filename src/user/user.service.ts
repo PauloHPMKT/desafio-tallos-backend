@@ -30,11 +30,19 @@ export class UserService {
     return userLogin
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  //update user
+  update(email: string, updateUser: UpdateUserDto) {
+    return this.userModel.findOneAndUpdate(
+      { email },
+      { $set: updateUser },
+      { new: true },
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  //delete user
+  remove(email: string) {
+    return this.userModel.deleteOne(
+      { email }
+    ).exec();
   }
 }
