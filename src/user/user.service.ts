@@ -24,8 +24,10 @@ export class UserService {
   }
 
   //identificando usuario por email
-  findByEmail(email: string) {
-    return this.userModel.findOne({ email })
+  async findByEmail(email: string) {
+    const userLogin = await this.userModel.findOne({ email })
+
+    return userLogin
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
