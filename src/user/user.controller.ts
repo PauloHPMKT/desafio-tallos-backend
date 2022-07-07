@@ -16,6 +16,7 @@ export class UserController {
   }
 
   //lista usuarios
+  @IsPublic()
   @Get('listusers')
   findAll() {
     return this.userService.findAll();
@@ -26,13 +27,17 @@ export class UserController {
     return this.userService.findOne(+id);
   }*/
   
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  //update user
+  @IsPublic()
+  @Patch(':email')
+  update(@Param('email') email: string, @Body() updateUser: UpdateUserDto) {
+    return this.userService.update(email, updateUser);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  //delete user
+  @IsPublic()
+  @Delete(':email')
+  remove(@Param('email') email: string) {
+    return this.userService.remove(email);
   }
 }
