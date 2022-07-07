@@ -14,5 +14,6 @@ export class CreateUserDto {
     @IsString()
     @Expose()
     password: string;
-    rule: string;
+
+    rules: string;
 }

@@ -37,7 +37,7 @@ export class UserController {
   }
 
   //delete user
-  @IsPublic()
+    @IsPublic()
   @Delete(':email')
   remove(@Param('email') email: string) {
     return this.userService.remove(email);

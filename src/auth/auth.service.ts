@@ -16,6 +16,7 @@ export class AuthService {
       sub: user.id, 
       name: user.name,
       email: user.email,
+      rules: user.rules,
     }
 
     //gerar token
