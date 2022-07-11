@@ -26,6 +26,7 @@ export class AuthService {
 
   // realizar login
   login(user: User): UserToken {
+    //verificar melhorias no método
     const payload: UserPayload = {
       sub: user.id, 
       name: user.name,

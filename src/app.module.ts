@@ -7,7 +7,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/user-database'),
+    MongooseModule.forRoot('mongodb://localhost:27017/user-database?authSource=admin'),
     UserModule,
     AuthModule
   ],
