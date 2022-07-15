@@ -11,7 +11,7 @@ import { Server, Socket } from 'socket.io'
 
 @WebSocketGateway({
   cors: {
-    origin: '*',  
+    origin:  '*'
   }
 })
 export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
@@ -31,7 +31,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     this.logger.log(`Client disconnected: ${client.id}`)
   }
 
-  handleConnection(client: Socket, ...args: any[]) {
+  handleConnection(client: Socket) {
     this.logger.log(`Client connected: ${client.id}`)
   }
 }
