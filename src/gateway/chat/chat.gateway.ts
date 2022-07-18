@@ -6,7 +6,7 @@ import {
   OnGatewayDisconnect, 
   WebSocketServer,
 } from "@nestjs/websockets";
-import { Logger } from "@nestjs/common";
+import { Logger, HttpServer } from "@nestjs/common";
 import { Server, Socket } from 'socket.io'
 
 @WebSocketGateway({
@@ -15,6 +15,7 @@ import { Server, Socket } from 'socket.io'
   }
 })
 export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+
   @WebSocketServer() server: Server;
   private logger: Logger = new Logger('ChatGateway')
 
