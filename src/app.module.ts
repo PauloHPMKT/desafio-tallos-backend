@@ -4,7 +4,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
-import { ChatGateway } from './gateway/chat/chat.gateway';
 import { ChatModule } from './gateway/chat/chat.module';
 
 @Module({
@@ -20,7 +19,6 @@ import { ChatModule } from './gateway/chat/chat.module';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
-    ChatGateway,
   ],
 })
 export class AppModule {}
