@@ -1,37 +1,46 @@
-import { 
-  WebSocketGateway, 
-  SubscribeMessage, 
-  OnGatewayInit, 
-  OnGatewayConnection, 
-  OnGatewayDisconnect, 
-  WebSocketServer,
-} from "@nestjs/websockets";
-import { Logger } from "@nestjs/common";
-import { Server, Socket } from 'socket.io'
+import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, ConnectedSocket } from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
+import { ChatService } from './chat.service';
+import { CreateChatDto } from './dto/create-chat.dto';
 
 @WebSocketGateway({
   cors: {
-    origin: '*',  
+    origin: '*'
   }
 })
-export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
-  @WebSocketServer() server: Server;
-  private logger: Logger = new Logger('ChatGateway')
+export class ChatGateway {
+  @WebSocketServer()
+  server: Server
 
-  @SubscribeMessage('messageToServe')
-  handleMessage(client: Socket, payload: any): void {
-    this.server.emit('messageToServer', payload)
+  constructor(private readonly chatService: ChatService) {}
+
+  //create messages
+  @SubscribeMessage('createChat')
+  create(@MessageBody() createChatDto: CreateChatDto, @ConnectedSocket() client: Socket) {
+    const message = this.chatService.create(createChatDto, client.id)
+
+    this.server.emit('message', message)
+
+    return message
   }
 
-  afterInit(server: Server) {
-    this.logger.log('Init')
+  //find all messages
+  @SubscribeMessage('findAllChat')
+  findAll() {
+    return this.chatService.findAll();
   }
 
-  handleDisconnect(client: Socket) {
-    this.logger.log(`Client disconnected: ${client.id}`)
+  //join user room
+  @SubscribeMessage('join')
+  joinRoom(@MessageBody('name') name: string, @ConnectedSocket() client: Socket ) {
+    return this.chatService.identify(name, client.id)
   }
 
-  handleConnection(client: Socket, ...args: any[]) {
-    this.logger.log(`Client connected: ${client.id}`)
+  //identifing typing user
+  @SubscribeMessage('typing')
+  async typing(@MessageBody('isTyping') isTyping: string, @ConnectedSocket() client: Socket) {
+    const name = await this.chatService.getClientName(client.id)
+
+    client.broadcast.emit('typing', { name, isTyping })
   }
 }
