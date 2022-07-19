@@ -1,34 +1,46 @@
-import { WebSocketGateway, SubscribeMessage, MessageBody } from '@nestjs/websockets';
+import { WebSocketGateway, SubscribeMessage, MessageBody, WebSocketServer, ConnectedSocket } from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create-chat.dto';
-import { UpdateChatDto } from './dto/update-chat.dto';
 
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: '*'
+  }
+})
 export class ChatGateway {
+  @WebSocketServer()
+  server: Server
+
   constructor(private readonly chatService: ChatService) {}
 
+  //create messages
   @SubscribeMessage('createChat')
-  create(@MessageBody() createChatDto: CreateChatDto) {
-    return this.chatService.create(createChatDto);
+  create(@MessageBody() createChatDto: CreateChatDto, @ConnectedSocket() client: Socket) {
+    const message = this.chatService.create(createChatDto, client.id)
+
+    this.server.emit('message', message)
+
+    return message
   }
 
+  //find all messages
   @SubscribeMessage('findAllChat')
   findAll() {
     return this.chatService.findAll();
   }
 
-  @SubscribeMessage('findOneChat')
-  findOne(@MessageBody() id: number) {
-    return this.chatService.findOne(id);
+  //join user room
+  @SubscribeMessage('join')
+  joinRoom(@MessageBody('name') name: string, @ConnectedSocket() client: Socket ) {
+    return this.chatService.identify(name, client.id)
   }
 
-  @SubscribeMessage('updateChat')
-  update(@MessageBody() updateChatDto: UpdateChatDto) {
-    return this.chatService.update(updateChatDto.id, updateChatDto);
-  }
+  //identifing typing user
+  @SubscribeMessage('typing')
+  async typing(@MessageBody('isTyping') isTyping: string, @ConnectedSocket() client: Socket) {
+    const name = await this.chatService.getClientName(client.id)
 
-  @SubscribeMessage('removeChat')
-  remove(@MessageBody() id: number) {
-    return this.chatService.remove(id);
+    client.broadcast.emit('typing', { name, isTyping })
   }
 }
