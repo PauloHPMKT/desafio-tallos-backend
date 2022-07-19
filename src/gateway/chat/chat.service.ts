@@ -30,6 +30,7 @@ export class ChatService {
     return this.messages
   }
 
+  //getting client by name
   getClientName(clientId: string) {
     return this.clientToUser[clientId]
   }
