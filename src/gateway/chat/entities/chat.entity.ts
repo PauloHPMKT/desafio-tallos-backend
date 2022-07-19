@@ -1,1 +1,4 @@
-export class Chat {}
+export class ChatEntities {
+    name: string;
+    text: string;
+}
