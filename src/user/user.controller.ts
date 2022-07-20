@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
-import { RolesGuard } from 'src/auth/guards/roles-auth.guard';
+//import { RolesGuard } from 'src/auth/guards/roles-auth.guard';
 
 @Controller('api')
 export class UserController {
@@ -25,15 +25,15 @@ export class UserController {
 
   //list one user
   @IsPublic()
-  @Get(':email')
+  @Get('finduser/:email')
   findOne(@Param('email') email: string) {
     return this.userService.findByEmail(email);
   }
   
   //update user
   @IsPublic()
-  @UseGuards(RolesGuard)
-  @Patch(':email')
+  //@UseGuards(RolesGuard)
+  @Patch('update/:email')
   update(@Param('email') email: string, @Body() updateUser: UpdateUserDto) {
     return this.userService.update(email, updateUser);
   }
