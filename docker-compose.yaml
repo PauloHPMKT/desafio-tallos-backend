@@ -1,11 +1,28 @@
 version: '3.7'
 
 services:
+  #api:
+  #  build: .
+  #  entrypoint: sh ./.docker/entrypoint.sh
+  #  container_name: backend-mongo-api
+  #  ports:
+  #    - 3000:3001
+  #  restart: always
+  #  links:
+  #    - db
+  #  depends_on:
+  #    - db
+  #  volumes:
+  #    - ./:/app  
+  #  tty: true
+
+
   db:
     image: mongo
     container_name: db
     ports:
       - 27017:27017
+
     restart: always
 
     environment:
