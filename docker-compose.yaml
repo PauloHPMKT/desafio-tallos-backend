@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.6'
 
 services:
   app:
@@ -9,22 +9,19 @@ services:
       - 3001:3001
       - 3002:3002
     restart: always
-    links:
-      - db
-    depends_on:
-      - db
+    volumes: 
+      - ./:/home/app
     tty: true
     networks: 
       - projeto-gerenciador-funcionarios
-
   db:
     image: mongo:4.4
     container_name: db
     ports:
       - 27017:27017
     volumes:
-      - ./.docker/mongodb/dbdata:/data/db
-      - ./.docker/mongodb/configdb:/data/configdb
+      - /mongodb/dbdata:/data/db
+      - /mongodb/configdb:/data/configdb
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     environment:
 #      MONGO_INITDB_ROOT_USERNAME: root

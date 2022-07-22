@@ -10,7 +10,7 @@ import { CreateChatDto } from './dto/create-chat.dto';
 })
 export class ChatGateway {
   @WebSocketServer()
-  server: Server
+  server: Server;
 
   constructor(private readonly chatService: ChatService) {}
 
