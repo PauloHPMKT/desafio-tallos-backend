@@ -1,15 +1,38 @@
 version: '3.7'
 
 services:
+  app:
+    build: .
+    entrypoint: sh ./.docker/entrypoint.sh
+    container_name: backend
+    ports:
+      - 3001:3001
+      - 3002:3002
+    restart: always
+    links:
+      - db
+    depends_on:
+      - db
+    tty: true
+    networks: 
+      - projeto-gerenciador-funcionarios
+
   db:
-    image: mongo
+    image: mongo:4.4
     container_name: db
     ports:
       - 27017:27017
-    restart: always
-
+    volumes:
+      - ./.docker/mongodb/dbdata:/data/db
+      - ./.docker/mongodb/configdb:/data/configdb
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
-      //MONGO_INITDB_DATABASE: admin
-    tty: true
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: user-database
+    networks: 
+      - projeto-gerenciador-funcionarios
+
+networks:
+  projeto-gerenciador-funcionarios:
+    driver: bridge
