@@ -3,7 +3,7 @@ import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/create-chat.dto';
 
-@WebSocketGateway({
+@WebSocketGateway(3002, {
   cors: {
     origin: '*'
   }

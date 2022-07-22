@@ -8,7 +8,7 @@ import { ChatModule } from './gateway/chat/chat.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/user-database?authSource=admin'),
+    MongooseModule.forRoot('mongodb://db:27017/user-database?authSource=admin'),
     UserModule,
     AuthModule,
     ChatModule,
