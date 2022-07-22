@@ -7,7 +7,7 @@ export class ChatService {
   messages: ChatEntities[] = [{ name: 'Paulo', text: 'Teste' }]
   clientToUser = {}
 
-  //identifing user
+  //identifing user - join user
   identify(name: string, clientId: string) {
     this.clientToUser[clientId] = name
 
@@ -20,13 +20,14 @@ export class ChatService {
       name: this.clientToUser[clientId],
       text: createChatDto.text
     }
-    await this.messages.push(message)
+    this.messages.push(message)
 
     return message
   }
 
   //find all messages
   findAll() {
+    console.log(this.messages)
     return this.messages
   }
 
