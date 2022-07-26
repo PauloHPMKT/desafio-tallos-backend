@@ -16,8 +16,8 @@ export class ChatGateway {
 
   //create messages
   @SubscribeMessage('createChat')
-  create(@MessageBody() createChatDto: CreateChatDto, @ConnectedSocket() client: Socket) {
-    const message = this.chatService.create(createChatDto, client.id)
+  async create(@MessageBody() createChatDto: CreateChatDto, @ConnectedSocket() client: Socket) {
+    const message = await this.chatService.create(createChatDto, client.id)
 
     this.server.emit('message', message)
 
@@ -43,4 +43,12 @@ export class ChatGateway {
 
     client.broadcast.emit('typing', { name, isTyping })
   }
+
+
+  emitUserLogged() {
+    this.server.emit('is-logged')
+    console.log('usuario logado')
+  }
 }
+
+

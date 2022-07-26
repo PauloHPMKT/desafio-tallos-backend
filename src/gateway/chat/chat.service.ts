@@ -20,7 +20,7 @@ export class ChatService {
       name: this.clientToUser[clientId],
       text: createChatDto.text
     }
-    this.messages.push(message)
+    await this.messages.push(message)
 
     return message
   }

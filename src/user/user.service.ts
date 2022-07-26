@@ -31,9 +31,9 @@ export class UserService {
   }
 
   //update user
-  update(email: string, updateUser: UpdateUserDto) {
-    return this.userModel.findOneAndUpdate(
-      { email },
+  update(id: string, updateUser: UpdateUserDto) {
+    return this.userModel.updateOne(
+      { _id: id },
       { $set: updateUser },
       { new: true },
     );

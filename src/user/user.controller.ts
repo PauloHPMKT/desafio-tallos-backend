@@ -33,9 +33,9 @@ export class UserController {
   //update user
   @IsPublic()
   //@UseGuards(RolesGuard)
-  @Patch('update/:email')
-  update(@Param('email') email: string, @Body() updateUser: UpdateUserDto) {
-    return this.userService.update(email, updateUser);
+  @Patch('update/:id')
+  update(@Param('id') id: string, @Body() updateUser: UpdateUserDto) {
+    return this.userService.update(id, updateUser);
   }
 
   //delete user
