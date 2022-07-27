@@ -1,6 +1,5 @@
 import { Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 import { ServiceGateway } from 'src/gateway/service.gateway';
-//import { ChatGateway } from 'src/gateway/chat/chat.gateway';
 import { User } from 'src/user/entities/user.entity';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/currentuser.decorator';

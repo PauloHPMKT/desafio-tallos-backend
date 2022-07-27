@@ -43,12 +43,6 @@ export class ChatGateway {
 
     client.broadcast.emit('typing', { name, isTyping })
   }
-
-
-  /*emitUserLogged() {
-    this.server.emit('is-logged')
-    console.log('usuario logado')
-  }*/
 }
 
 

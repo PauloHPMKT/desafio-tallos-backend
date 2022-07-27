@@ -1,8 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { ServiceGateway } from 'src/gateway/service.gateway';
-//import { ChatGateway } from 'src/gateway/chat/chat.gateway';
-//import { ChatService } from 'src/gateway/chat/chat.service';
 import { UserModule } from 'src/user/user.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -25,9 +23,8 @@ import { LocalStrategy } from './strategies/local.strategy';
     LocalStrategy, 
     JwtStrategy, 
     RolesGuard, 
-    ServiceGateway,
-    /*ChatGateway*/ 
-  /*ChatService*/],
+    ServiceGateway
+  ],
   exports: []
 })
 export class AuthModule implements NestModule {
