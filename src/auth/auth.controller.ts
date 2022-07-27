@@ -1,5 +1,6 @@
 import { Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
-import { ChatGateway } from 'src/gateway/chat/chat.gateway';
+import { ServiceGateway } from 'src/gateway/service.gateway';
+//import { ChatGateway } from 'src/gateway/chat/chat.gateway';
 import { User } from 'src/user/entities/user.entity';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/currentuser.decorator';
@@ -11,7 +12,7 @@ import { AuthRequest } from './models/auth.request';
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
-        private readonly socketGateway: ChatGateway
+        private readonly serviceGateway: ServiceGateway,
         ) {}
     
     //login
@@ -20,7 +21,7 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     @Post('login')
     login(@Request() req: AuthRequest) {
-        //this.socketGateway.emitUserLogged()
+        this.serviceGateway.emitUserLoginEvent()
         return this.authService.login(req.user)
     }
 

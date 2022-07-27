@@ -45,10 +45,10 @@ export class ChatGateway {
   }
 
 
-  emitUserLogged() {
+  /*emitUserLogged() {
     this.server.emit('is-logged')
     console.log('usuario logado')
-  }
+  }*/
 }
 
 
