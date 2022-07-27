@@ -33,15 +33,13 @@ export class ChatGateway {
   //join user room
   @SubscribeMessage('join')
   joinRoom(@MessageBody('name') name: string, @ConnectedSocket() client: Socket ) {
-    return this.chatService.identify(name, client.id)
-  }
+    const enterUser = this.chatService.identify(name, client.id)
+    
+    client.broadcast.emit('join-room', enterUser)
+    //this.server.emit('join-room', enterUser)
+    console.log(enterUser)
 
-  //identifing typing user
-  @SubscribeMessage('typing')
-  async typing(@MessageBody('isTyping') isTyping: string, @ConnectedSocket() client: Socket) {
-    const name = await this.chatService.getClientName(client.id)
-
-    client.broadcast.emit('typing', { name, isTyping })
+    return enterUser
   }
 }
 

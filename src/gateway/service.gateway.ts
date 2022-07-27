@@ -1,4 +1,4 @@
-import { MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
+import { WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Server } from "socket.io";
 
 @WebSocketGateway(3002,{    
@@ -11,14 +11,15 @@ export class ServiceGateway {
     @WebSocketServer()
     server: Server
 
-    @SubscribeMessage('event-connection')
-    handleEvent(@MessageBody() data: string): string {
-        console.log(data, 'aqui vai um teste')
-        return data
-    }
-
-    emitUserLoginEvent() {
+    //registring login event
+    emitUserLoginEvent(): void {
         this.server.emit('is-logged')
         console.log('usuario logado')
+    }
+
+    //registring update event
+    emitUpdateUserEvent(_id: string) {
+        this.server.emit('update', _id)
+        console.log(_id, 'usuario atualizado')
     }
 }
