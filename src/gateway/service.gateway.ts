@@ -19,7 +19,13 @@ export class ServiceGateway {
 
     //registring update event
     emitUpdateUserEvent(_id: string) {
-        this.server.emit('update', _id)
+        this.server.emit('update-user', _id)
         console.log(_id, 'usuario atualizado')
+    }
+
+    //registring delete event
+    emitRemoveUserEvent(email: string) {
+        this.server.emit('remove-user', email)
+        console.log('usuario removido')
     }
 }

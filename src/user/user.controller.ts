@@ -47,6 +47,7 @@ export class UserController {
   @IsPublic()
   @Delete('remove/:email')
   remove(@Param('email') email: string) {
+    this.serviceGateway.emitRemoveUserEvent(email)
     return this.userService.remove(email);
   }
 }
