@@ -10,7 +10,8 @@ export class ChatService {
   //identifing user - join user
   identify(name: string, clientId: string) {
     this.clientToUser[clientId] = name
-    console.log('um novo usuario entrou na sala')
+    console.log(clientId)
+    console.log('um novo usuario entrou na sala', this.clientToUser)
     return Object.values(this.clientToUser)
   }
 

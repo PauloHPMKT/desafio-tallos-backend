@@ -34,12 +34,18 @@ export class ChatGateway {
   @SubscribeMessage('join')
   joinRoom(@MessageBody('name') name: string, @ConnectedSocket() client: Socket ) {
     const enterUser = this.chatService.identify(name, client.id)
-    
-    client.broadcast.emit('join-room', enterUser)
-    //this.server.emit('join-room', enterUser)
-    console.log(enterUser)
 
+    console.log(client.id)
+    this.server.emit('join-room', enterUser)
+    client.broadcast.emit('joined-room', enterUser)
+  
     return enterUser
+  }
+
+  @SubscribeMessage('leave-room')
+  leavingRoom(room: string, client: Socket) {
+    console.log('usuario esta deixando a sala', room)
+    client.emit('left-room', room)
   }
 }
 
