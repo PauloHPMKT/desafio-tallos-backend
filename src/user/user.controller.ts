@@ -17,6 +17,7 @@ export class UserController {
   @IsPublic()
   @Post('register')
   create(@Body() createUser: CreateUserDto) {
+    this.serviceGateway.emitingCreateUserEvent()
     return this.userService.create(createUser);
   }
 

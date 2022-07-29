@@ -10,7 +10,12 @@ import { Server } from "socket.io";
 export class ServiceGateway {
     @WebSocketServer()
     server: Server
-
+    
+    //registring new user
+    emitingCreateUserEvent(): void {
+        this.server.emit('user-created')
+        console.log('usuario criado')
+    }
     //registring login event
     emitUserLoginEvent(): void {
         this.server.emit('is-logged')
