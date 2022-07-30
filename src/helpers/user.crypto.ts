@@ -6,7 +6,7 @@ export class Encript {
         return bcrypt.hash(pass, salt)
     }
 
-    static async ComparePass(enterPass: string, userPass: string ): Promise<string> {
+    static async ComparePass(enterPass: string, userPass: string ) {
         return await bcrypt.compare(enterPass, userPass)
     }
 }
