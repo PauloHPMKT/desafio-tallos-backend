@@ -19,7 +19,7 @@ export class AuthService {
   
       if(compareValidPassword) {
         return { 
-          ...user,
+          user,
           password: undefined          
         }
       }
@@ -38,7 +38,7 @@ export class AuthService {
     }
 
     //gerar token
-    const jwtToken = this.jwtService.sign(payload)
+    const jwtToken = this.jwtService.sign(user)
     
     return {
       access_token: jwtToken,

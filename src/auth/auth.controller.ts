@@ -1,8 +1,6 @@
-import { Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 import { ServiceGateway } from 'src/gateway/service.gateway';
-import { User } from 'src/user/entities/user.entity';
 import { AuthService } from './auth.service';
-import { CurrentUser } from './decorators/currentuser.decorator';
 import { IsPublic } from './decorators/is-public.decorator';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthRequest } from './models/auth.request';
@@ -22,13 +20,5 @@ export class AuthController {
     login(@Request() req: AuthRequest) {
         this.serviceGateway.emitUserLoginEvent()
         return this.authService.login(req.user)
-    }
-
-    //authenticate me
-    @IsPublic()
-    @Get('me')
-    authenticateUser(@CurrentUser() user: User) {
-        console.log(user)
-        return user
     }
 }
