@@ -34,6 +34,13 @@ export class UserController {
   findOne(@Param('email') email: string) {
     return this.userService.findByEmail(email);
   }
+
+  //search user
+  @IsPublic()
+  @Get('search/:email')
+  search(@Param('email') email: string) {
+    return this.userService.findByFilter(email)
+  }
   
   //update user
   @IsPublic()

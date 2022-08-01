@@ -30,6 +30,11 @@ export class UserService {
     return userLogin
   }
 
+  //listar um usuario
+  findByFilter(email: string) {
+    return this.userModel.find({ email })
+  }
+
   //update user
   update(id: string, updateUser: UpdateUserDto) {
     return this.userModel.updateOne(
