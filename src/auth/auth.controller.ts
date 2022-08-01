@@ -1,4 +1,5 @@
 import { Controller, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ServiceGateway } from 'src/gateway/service.gateway';
 import { AuthService } from './auth.service';
 import { IsPublic } from './decorators/is-public.decorator';
@@ -13,6 +14,7 @@ export class AuthController {
         ) {}
     
     //login
+    @ApiTags('login')
     @IsPublic()
     @UseGuards(LocalAuthGuard)
     @HttpCode(HttpStatus.OK)

@@ -1,5 +1,6 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
+import { ApiTags } from '@nestjs/swagger';
 import { ServiceGateway } from 'src/gateway/service.gateway';
 import { UserModule } from 'src/user/user.module';
 import { AuthController } from './auth.controller';
