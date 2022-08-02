@@ -4,13 +4,14 @@ import { ChatEntities } from './entities/chat.entity';
 
 @Injectable()
 export class ChatService {
-  messages: ChatEntities[] = [{ name: 'Paulo', text: 'Teste' }]
+  messages: ChatEntities[] = []
   clientToUser = {}
 
   //identifing user - join user
   identify(name: string, clientId: string) {
     this.clientToUser[clientId] = name
-
+    console.log(clientId)
+    console.log('um novo usuario entrou na sala', this.clientToUser)
     return Object.values(this.clientToUser)
   }
 
@@ -20,7 +21,7 @@ export class ChatService {
       name: this.clientToUser[clientId],
       text: createChatDto.text
     }
-    this.messages.push(message)
+    await this.messages.push(message)
 
     return message
   }
@@ -29,10 +30,5 @@ export class ChatService {
   findAll() {
     console.log(this.messages)
     return this.messages
-  }
-
-  //getting client by name
-  getClientName(clientId: string) {
-    return this.clientToUser[clientId]
-  }
+  } 
 }

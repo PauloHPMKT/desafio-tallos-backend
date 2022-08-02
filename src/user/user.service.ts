@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose'
-import { Encript } from 'src/helpers/user.crypto';
+import { Encript } from 'src/helpers/crypto';
 
 @Injectable()
 export class UserService {
@@ -30,10 +30,15 @@ export class UserService {
     return userLogin
   }
 
+  //listar um usuario
+  findByFilter(email: string) {
+    return this.userModel.find({ email })
+  }
+
   //update user
-  update(email: string, updateUser: UpdateUserDto) {
-    return this.userModel.findOneAndUpdate(
-      { email },
+  update(id: string, updateUser: UpdateUserDto) {
+    return this.userModel.updateOne(
+      { _id: id },
       { $set: updateUser },
       { new: true },
     );

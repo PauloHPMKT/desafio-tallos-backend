@@ -16,8 +16,8 @@ export class ChatGateway {
 
   //create messages
   @SubscribeMessage('createChat')
-  create(@MessageBody() createChatDto: CreateChatDto, @ConnectedSocket() client: Socket) {
-    const message = this.chatService.create(createChatDto, client.id)
+  async create(@MessageBody() createChatDto: CreateChatDto, @ConnectedSocket() client: Socket) {
+    const message = await this.chatService.create(createChatDto, client.id)
 
     this.server.emit('message', message)
 
@@ -33,14 +33,20 @@ export class ChatGateway {
   //join user room
   @SubscribeMessage('join')
   joinRoom(@MessageBody('name') name: string, @ConnectedSocket() client: Socket ) {
-    return this.chatService.identify(name, client.id)
+    const enterUser = this.chatService.identify(name, client.id)
+
+    console.log(client.id)
+    this.server.emit('join-room', enterUser)
+    client.broadcast.emit('joined-room', enterUser)
+  
+    return enterUser
   }
 
-  //identifing typing user
-  @SubscribeMessage('typing')
-  async typing(@MessageBody('isTyping') isTyping: string, @ConnectedSocket() client: Socket) {
-    const name = await this.chatService.getClientName(client.id)
-
-    client.broadcast.emit('typing', { name, isTyping })
+  @SubscribeMessage('leave-room')
+  leavingRoom(room: string, client: Socket) {
+    console.log('usuario esta deixando a sala', room)
+    client.emit('left-room', room)
   }
 }
+
+

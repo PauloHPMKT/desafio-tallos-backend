@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Encript } from 'src/helpers/user.crypto';
+import { Encript } from 'src/helpers/crypto';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { UserPayload } from './models/user.payload';
@@ -15,10 +15,13 @@ export class AuthService {
     const user = await this.userService.findByEmail(email)
   
     if(user) {
-      const compareValidPassword = user.password = await Encript.ComparePass(password, user.password)
+      const compareValidPassword = await Encript.ComparePass(password, user.password)
   
       if(compareValidPassword) {
-        return ({ user })
+        return { 
+          user,
+          password: undefined          
+        }
       }
     }
     throw new Error('Email ou senhas incorretos!')

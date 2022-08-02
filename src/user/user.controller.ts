@@ -3,16 +3,21 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
+import { ServiceGateway } from 'src/gateway/service.gateway';
 //import { RolesGuard } from 'src/auth/guards/roles-auth.guard';
 
 @Controller('api')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly serviceGateway: ServiceGateway,  
+  ) {}
 
   //cria usuarios
   @IsPublic()
   @Post('register')
   create(@Body() createUser: CreateUserDto) {
+    this.serviceGateway.emitingCreateUserEvent()
     return this.userService.create(createUser);
   }
 
@@ -29,19 +34,28 @@ export class UserController {
   findOne(@Param('email') email: string) {
     return this.userService.findByEmail(email);
   }
+
+  //search user
+  @IsPublic()
+  @Get('search/:email')
+  search(@Param('email') email: string) {
+    return this.userService.findByFilter(email)
+  }
   
   //update user
   @IsPublic()
   //@UseGuards(RolesGuard)
-  @Patch('update/:email')
-  update(@Param('email') email: string, @Body() updateUser: UpdateUserDto) {
-    return this.userService.update(email, updateUser);
+  @Patch('update/:id')
+  update(@Param('id') id: string, @Body() updateUser: UpdateUserDto) {
+    this.serviceGateway.emitUpdateUserEvent(id)
+    return this.userService.update(id, updateUser);
   }
 
   //delete user
   @IsPublic()
   @Delete('remove/:email')
   remove(@Param('email') email: string) {
+    this.serviceGateway.emitRemoveUserEvent(email)
     return this.userService.remove(email);
   }
 }
