@@ -3,7 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { Encript } from 'src/helpers/crypto';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
-import { UserPayload } from './models/user.payload';
 import { UserToken } from './models/user.token';
 
 @Injectable()
@@ -18,9 +17,10 @@ export class AuthService {
       const compareValidPassword = await Encript.ComparePass(password, user.password)
   
       if(compareValidPassword) {
+        user.password = undefined
+
         return { 
           user,
-          password: undefined          
         }
       }
     }
@@ -29,14 +29,6 @@ export class AuthService {
 
   // realizar login
   login(user: User): UserToken {
-    //verificar melhorias no método
-    const payload: UserPayload = {
-      sub: user.id, 
-      name: user.name,
-      email: user.email,
-      rules: user.rules,
-    }
-
     //gerar token
     const jwtToken = this.jwtService.sign(user)
     
