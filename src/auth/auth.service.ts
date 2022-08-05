@@ -7,35 +7,40 @@ import { UserToken } from './models/user.token';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   //validar usuario
   async validateUser(email: string, password: string) {
-    const user = await this.userService.findByEmail(email)
-  
-    if(user) {
-      const compareValidPassword = await Encript.ComparePass(password, user.password)
-  
-      if(compareValidPassword) {
-        user.password = undefined
+    const user = await this.userService.findByEmail(email);
 
-        return { 
+    if (user) {
+      const compareValidPassword = await Encript.ComparePass(
+        password,
+        user.password,
+      );
+
+      if (compareValidPassword) {
+        user.password = undefined;
+
+        return {
           user,
-        }
+        };
       }
     }
-    throw new Error('Email ou senhas incorretos!')
+    throw new Error('Email ou senhas incorretos!');
   }
 
   // realizar login
   login(user: User): UserToken {
     //gerar token
-    const jwtToken = this.jwtService.sign(user)
-    
+    const jwtToken = this.jwtService.sign(user);
+
     return {
       access_token: jwtToken,
-      ...user,  
-    }
+      ...user,
+    };
   }
-
 }
