@@ -15,35 +15,30 @@ export class UserController {
 
   //cria usuarios
   @IsPublic()
-  @Post('register')
   create(@Body() createUser: CreateUserDto) {
     this.serviceGateway.emitingCreateUserEvent()
     return this.userService.create(createUser);
   }
 
   //lista usuarios
-  @IsPublic()
   @Get('listusers')
   findAll() {
     return this.userService.findAll();
   }
 
   //list one user
-  @IsPublic()
   @Get('finduser/:email')
   findOne(@Param('email') email: string) {
     return this.userService.findByEmail(email);
   }
 
   //search user
-  @IsPublic()
   @Get('search/:email')
   search(@Param('email') email: string) {
     return this.userService.findByFilter(email)
   }
   
   //update user
-  @IsPublic()
   //@UseGuards(RolesGuard)
   @Patch('update/:id')
   update(@Param('id') id: string, @Body() updateUser: UpdateUserDto) {
@@ -52,7 +47,6 @@ export class UserController {
   }
 
   //delete user
-  @IsPublic()
   @Delete('remove/:email')
   remove(@Param('email') email: string) {
     this.serviceGateway.emitRemoveUserEvent(email)
