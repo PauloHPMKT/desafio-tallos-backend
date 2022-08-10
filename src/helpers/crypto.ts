@@ -1,12 +1,12 @@
-import * as bcrypt from 'bcrypt';
+import * as bcryptjs from 'bcryptjs';
 
 export class Encript {
   static async CriptoPass(pass: string) {
-    const salt = await bcrypt.genSalt();
-    return bcrypt.hash(pass, salt);
+    const salt = await bcryptjs.genSalt();
+    return bcryptjs.hash(pass, salt);
   }
 
   static async ComparePass(enterPass: string, userPass: string) {
-    return await bcrypt.compare(enterPass, userPass);
+    return await bcryptjs.compare(enterPass, userPass);
   }
 }

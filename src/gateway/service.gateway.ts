@@ -1,5 +1,6 @@
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
+import { User } from 'src/user/entities/user.entity';
 
 @WebSocketGateway(3002, {
   cors: {
@@ -16,9 +17,9 @@ export class ServiceGateway {
     console.log('usuario criado');
   }
   //registring login event
-  emitUserLoginEvent(): void {
-    this.server.emit('is-logged');
-    console.log('usuario logado');
+  emitUserLoginEvent(_id: User): void {
+    this.server.emit('is-logged', { _id });
+    console.log('usuario logado', _id);
   }
 
   //registring update event

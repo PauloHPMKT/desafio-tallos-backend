@@ -12,7 +12,7 @@ import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
-    UserModule, 
+    UserModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '3000ms' },
@@ -20,16 +20,16 @@ import { LocalStrategy } from './strategies/local.strategy';
   ],
   controllers: [AuthController],
   providers: [
-    AuthService, 
-    LocalStrategy, 
-    JwtStrategy, 
-    RolesGuard, 
-    ServiceGateway
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    RolesGuard,
+    ServiceGateway,
   ],
-  exports: []
+  exports: [],
 })
 export class AuthModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoginValidationMiddleware).forRoutes('login')
+    consumer.apply(LoginValidationMiddleware).forRoutes('login');
   }
 }
