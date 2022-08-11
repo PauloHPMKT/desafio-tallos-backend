@@ -4,11 +4,13 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Encript } from '../helpers/crypto';
+import { ServiceGateway } from 'src/gateway/service.gateway';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectModel('usuarios') private readonly userModel: Model<CreateUserDto>,
+    private readonly serviceGateway: ServiceGateway,
   ) {}
 
   //criando novo usuario
@@ -46,7 +48,8 @@ export class UserService {
   }
 
   //delete user
-  remove(email: string) {
-    return this.userModel.deleteOne({ email }).exec();
+  remove(id: string) {
+    this.serviceGateway.emitRemoveUserEvent(id);
+    return this.userModel.deleteOne({ _id: id }).exec();
   }
 }

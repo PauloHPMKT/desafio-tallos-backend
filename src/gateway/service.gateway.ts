@@ -29,8 +29,8 @@ export class ServiceGateway {
   }
 
   //registring delete event
-  emitRemoveUserEvent(email: string) {
-    this.server.emit('remove-user', email);
-    console.log('usuario removido');
+  emitRemoveUserEvent(id: string) {
+    this.server.emit('remove-user', id);
+    console.log('usuario removido', id);
   }
 }
