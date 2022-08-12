@@ -27,7 +27,6 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   login(@Request() req: AuthRequest) {
-    this.serviceGateway.emitUserLoginEvent();
     return this.authService.login(req.user);
   }
 }

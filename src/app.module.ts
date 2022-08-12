@@ -20,7 +20,7 @@ import { ServiceGateway } from './gateway/service.gateway';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
-    ServiceGateway
+    ServiceGateway,
   ],
 })
 export class AppModule {}
