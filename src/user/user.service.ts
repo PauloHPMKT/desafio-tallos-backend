@@ -15,6 +15,14 @@ export class UserService {
 
   //criando novo usuario
   async create(createNewUser: CreateUserDto) {
+    const userFound = await this.userModel.findOne({
+      email: createNewUser.email,
+    });
+
+    if (userFound) {
+      throw new Error('Usuario já existe');
+    }
+
     const newUser = await new this.userModel(createNewUser);
     newUser.password = await Encript.CriptoPass(newUser.password);
 
