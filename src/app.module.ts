@@ -9,7 +9,7 @@ import { ServiceGateway } from './gateway/service.gateway';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://db:27017/user-database?authSource=admin'),
+    MongooseModule.forRoot(process.env.DB_STRING_CONNECTION),
     UserModule,
     AuthModule,
     ChatModule,

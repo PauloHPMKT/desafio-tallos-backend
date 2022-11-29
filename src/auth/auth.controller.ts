@@ -15,10 +15,7 @@ import { AuthRequest } from './models/auth.request';
 
 @Controller('api')
 export class AuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly serviceGateway: ServiceGateway,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   //login
   @ApiTags('login')

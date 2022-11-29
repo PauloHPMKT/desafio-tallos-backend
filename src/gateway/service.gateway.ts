@@ -1,8 +1,8 @@
 import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
-import { User } from 'src/user/entities/user.entity';
+import { Server } from 'socket.io';
+import { User } from '../user/entities/user.entity';
 
-@WebSocketGateway(3002, {
+@WebSocketGateway(3005, {
   cors: {
     origin: '*',
   },

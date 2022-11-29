@@ -4,7 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Encript } from '../helpers/crypto';
-import { ServiceGateway } from 'src/gateway/service.gateway';
+import { ServiceGateway } from '../gateway/service.gateway';
 
 @Injectable()
 export class UserService {
